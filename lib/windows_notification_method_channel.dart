@@ -13,7 +13,7 @@ class MethodChannelWindowsNotification extends WindowsNotificationPlatform {
   static Map<String, String> templates = {
     "show_notification_image": '''
 <?xml version="1.0" encoding="utf-8"?>
-<toast activationType="protocol">
+<toast activationType="background">
   <visual>
     <binding template="ToastGeneric">
       <text id="1">Test message</text>
@@ -26,7 +26,7 @@ class MethodChannelWindowsNotification extends WindowsNotificationPlatform {
 ''',
     "show_notification": '''
 <?xml version="1.0" encoding="utf-8"?>
-<toast activationType="protocol">
+<toast activationType="background">
   <visual>
     <binding template="ToastGeneric">
       <text id="1">Test message</text>
@@ -46,7 +46,7 @@ class MethodChannelWindowsNotification extends WindowsNotificationPlatform {
       final String? applicationId) async {
     final data = notification.toJson;
     if (applicationId != null) data["application_id"] = applicationId;
-    String? templateXml = templates[notification.methodNmae]?.trim();
+    String? templateXml = templates[notification.methodName]?.trim();
 
     if (notification.largeImage != null) {
       templateXml = templateXml?.replaceFirst("#1#", notification.largeImage!);
@@ -55,7 +55,7 @@ class MethodChannelWindowsNotification extends WindowsNotificationPlatform {
     }
 
     data["template"] = templateXml;
-    await methodChannel.invokeMethod(notification.methodNmae, data);
+    await methodChannel.invokeMethod(notification.methodName, data);
   }
 
   @override
@@ -63,12 +63,12 @@ class MethodChannelWindowsNotification extends WindowsNotificationPlatform {
       final NotificationMessage notification,
       final String? applicationId,
       final String template) async {
-    assert(notification.temolateType == TemplateType.custom,
+    assert(notification.templateType == TemplateType.custom,
         "Use NotificationMessage.fromCustomTemplate to create notification object");
     final data = notification.toJson;
     if (applicationId != null) data["application_id"] = applicationId;
     data["template"] = template;
-    await methodChannel.invokeMethod(notification.methodNmae, data);
+    await methodChannel.invokeMethod(notification.methodName, data);
   }
 
   @override

@@ -16,9 +16,9 @@ class WindowsNotification {
 
   /// To send notifications with plugin templates you must create NotificationMessage with fromPluginTemplate constructor
   Future<void> showNotificationPluginTemplate(
-      final NotificationMessage templaate) async {
+      final NotificationMessage template) async {
     return WindowsNotificationPlatform.instance
-        .showNotification(templaate, applicationId);
+        .showNotification(template, applicationId);
   }
 
   /// To send notifications with custom templates you must create NotificationMessage with fromCustomTemplate constructor

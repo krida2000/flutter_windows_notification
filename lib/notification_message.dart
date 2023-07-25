@@ -5,7 +5,7 @@ enum EventType { onActivate, onDismissed }
 enum TemplateType { plugin, custom }
 
 class NotificationMessage {
-  final TemplateType temolateType;
+  final TemplateType templateType;
   final String? title;
 
   ///Gets or sets the group identifier for the notification.
@@ -44,7 +44,7 @@ class NotificationMessage {
 
     ///Gets or sets the group identifier for the notification.
     this.group,
-  }) : temolateType = TemplateType.plugin {
+  }) : templateType = TemplateType.plugin {
     assert(id.trim().isNotEmpty, "id must not be empty string");
     assert(group == null || group!.trim().isNotEmpty,
         "group must not be empty string");
@@ -61,7 +61,7 @@ class NotificationMessage {
 
     ///Gets or sets the group identifier for the notification.
     this.group,
-  })  : temolateType = TemplateType.custom,
+  })  : templateType = TemplateType.custom,
         title = null,
         image = null,
         largeImage = null,
@@ -70,7 +70,7 @@ class NotificationMessage {
     assert(group == null || group!.trim().isNotEmpty,
         "group must not be empty string");
   }
-  String get methodNmae => temolateType == TemplateType.custom
+  String get methodName => templateType == TemplateType.custom
       ? "custom_template"
       : image == null
           ? "show_notification"
@@ -85,8 +85,8 @@ class NotificationMessage {
         "payload": payload,
         "group": group,
         "launch": launch,
-        "temolateType": temolateType.name,
-        "largImage": largeImage
+        "templateType": templateType.name,
+        "largeImage": largeImage
       };
     }
     return {
@@ -96,8 +96,8 @@ class NotificationMessage {
       "payload": payload,
       "group": group,
       "launch": launch,
-      "temolateType": temolateType.name,
-      "largImage": largeImage
+      "templateType": templateType.name,
+      "largeImage": largeImage
     };
   }
 
@@ -108,10 +108,10 @@ class NotificationMessage {
         image = json["image"],
         payload = Map.from(json["payload"]),
         group = json["group"],
-        largeImage = json["largImage"],
+        largeImage = json["largeImage"],
         launch = json["launch"],
-        temolateType = TemplateType.values
-            .firstWhere((element) => element.name == json["temolateType"]);
+        templateType = TemplateType.values
+            .firstWhere((element) => element.name == json["templateType"]);
 
   Map<String, dynamic> get toJson {
     Map<String, dynamic> messageJs = {};
@@ -122,7 +122,7 @@ class NotificationMessage {
         "image": image!,
         "payload": json.encode(toJs),
         "tag": id,
-        "largImage": largeImage
+        "largeImage": largeImage
       };
     } else {
       messageJs = {
@@ -130,7 +130,7 @@ class NotificationMessage {
         "body": body,
         "payload": json.encode(toJs),
         "tag": id,
-        "largImage": largeImage
+        "largeImage": largeImage
       };
     }
     if (launch != null) {
